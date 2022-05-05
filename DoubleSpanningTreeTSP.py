@@ -22,11 +22,12 @@ def DoubleSpanningTreeTSP(mapa,debug=False):
             kruznica.append(v)
     return kruznica
 
-
+# Jarnikov algoritmus na hladanie minimalnej kostry
 def Jarnik(mapa):
     V = []
     E = []
     i = 1
+    # pridanie prvej hrany umelo
     min1 = np.inf
     e1 = None
     for x in range(len(mapa)):
@@ -39,6 +40,7 @@ def Jarnik(mapa):
     V.append(e1[1])
     E.append(e1)
     i += 1
+    # ostatne hrany podla algoritmu
     while True:
         Fcount = 0
         minimum = np.inf
@@ -59,9 +61,9 @@ def Jarnik(mapa):
         i = i + 1
 
 
+# najdenie eulerovskeho tahu pomocou zasobnika a oznacovania prejdenych hran
 def eulerianPath(H):
     C = [0 for e in H]
-    print(H)
     EP = []
     stack = Stack()
     stack.push(0)
