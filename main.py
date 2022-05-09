@@ -13,6 +13,7 @@ from utils import load_text, dlzka_kruznice
 
 def TSP(debug=False):
     mapa = load_text(filename="vstup2.txt")
+    print("MATICA SUSEDNOSTI:")
     print(mapa)
 
     start = datetime.datetime.now()
