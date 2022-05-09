@@ -5,27 +5,14 @@
 import datetime
 import numpy as np
 
+from ChristofidesTSP import ChristofidesTSP
 from GreedyTSP import greedyTSP
 from DoubleSpanningTreeTSP import DoubleSpanningTreeTSP
+from utils import load_text, dlzka_kruznice
 
-def load_text(filename="vstup.txt", separator=" "):
-    with open(filename, "r") as vstup:
-        mapa = []
-        for riadok in vstup.readlines():
-            vzdialenosti = riadok.split(separator)
-            mapa.append([int(v) for v in vzdialenosti])
-        vstup.close()
-        return np.array(mapa)
-
-def dlzka_kruznice(kruznica,mapa):
-    sucet = 0
-    for i in range(1,len(kruznica)):
-        sucet += mapa[kruznica[i-1]][kruznica[i]]
-    sucet += mapa[kruznica[-1]][kruznica[0]]
-    return sucet
 
 def TSP(debug=False):
-    mapa = load_text(filename="vstup.txt")
+    mapa = load_text(filename="vstup2.txt")
     print(mapa)
 
     start = datetime.datetime.now()
@@ -41,6 +28,13 @@ def TSP(debug=False):
     print("najdena kruznica:", kruznica, "dlzka: kruznice:", dlzka_kruznice(kruznica, mapa), "celkovy cas vypoctu:",
           time.total_seconds() * 1000)
 
+    start = datetime.datetime.now()
+    print("CHRISTOFIDES:")
+    kruznica = ChristofidesTSP(mapa, debug)
+    time = datetime.datetime.now() - start
+    print("najdena kruznica:", kruznica, "dlzka: kruznice:", dlzka_kruznice(kruznica, mapa), "celkovy cas vypoctu:",
+          time.total_seconds() * 1000)
+
 
 if __name__ == '__main__':
-    TSP(debug=True)
+    TSP(debug=False)

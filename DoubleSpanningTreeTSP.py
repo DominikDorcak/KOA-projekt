@@ -1,6 +1,5 @@
-import numpy as np
 
-from Stack import Stack
+from utils import eulerianPath, Jarnik
 
 
 def DoubleSpanningTreeTSP(mapa,debug=False):
@@ -22,66 +21,3 @@ def DoubleSpanningTreeTSP(mapa,debug=False):
             kruznica.append(v)
     return kruznica
 
-# Jarnikov algoritmus na hladanie minimalnej kostry
-def Jarnik(mapa):
-    V = []
-    E = []
-    i = 1
-    # pridanie prvej hrany umelo
-    min1 = np.inf
-    e1 = None
-    for x in range(len(mapa)):
-        for y in range(len(mapa)):
-            if x != y:
-                if (mapa[x][y]) < min1:
-                    min1 = mapa[x][y]
-                    e1 = [x, y]
-    V.append(e1[0])
-    V.append(e1[1])
-    E.append(e1)
-    i += 1
-    # ostatne hrany podla algoritmu
-    while True:
-        Fcount = 0
-        minimum = np.inf
-        ei = None
-        yi = None
-        for x in range(len(mapa)):
-            for y in range(len(mapa)):
-                if x != y:
-                    if x in V and y not in V:
-                        Fcount += 1
-                        if (mapa[x][y]) < minimum:
-                            minimum = mapa[x][y]
-                            ei = [x, y]
-                            yi = y
-        if Fcount == 0: return E
-        V.append(yi)
-        E.append(ei)
-        i = i + 1
-
-
-# najdenie eulerovskeho tahu pomocou zasobnika a oznacovania prejdenych hran
-def eulerianPath(H):
-    C = [0 for e in H]
-    EP = []
-    stack = Stack()
-    stack.push(0)
-    while not stack.isEmpty():
-        x = stack.peek()
-        add = False
-        for index, e in enumerate(H):
-            if e[0] == x and  C[index] == 0:
-                    stack.push(e[1])
-                    C[index] = 1
-                    add = True
-                    break
-            if e[1] == x and C[index] == 0:
-                    stack.push(e[0])
-                    C[index] = 1
-                    add = True
-                    break
-        if not add:
-            top = stack.pop()
-            EP.append(top)
-    return EP
